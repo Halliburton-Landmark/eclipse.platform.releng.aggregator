@@ -509,7 +509,7 @@ fn-tag-build-inputs ()
 
   # == Step 1 of git logging.
   # TODO: This may not work right if "streams/repositories.txt" contains tags.
-  GITLOG_FILENAME=gitLog.txt
+  GITLOG_FILENAME=gitLog.html
   GITLOG_FILE=${buildDirectory}/${GITLOG_FILENAME}
   echo "Creating ${GITLOG_FILENAME}"
   # we set REPORTDATE first thing, to get some idea of "time elapsed" since start of build.
@@ -555,21 +555,20 @@ fn-tag-build-inputs ()
   # == Step 2 of Git logging.
   if [[ -n "${lastTag}" ]]
   then
-    # TODO: other log options to consider? --pretty=oneline?
-    echo -e "\n\tGit log from ${lastTag} (previous) to ${BUILD_ID} (current)\n" > ${GITLOG_FILE}
-    # We include the "time of report" since this report might be included in a "build has started"
-    # mail message, so it would be good to know if we are much delayed in getting that message out.
-    echo -e "\tThe tagging, and this report, were done at about $REPORTTIMESTAMP\n\n" >> ${GITLOG_FILE}
-    # This first one is for aggregator itself.
-    echo "Repository eclipse.platform.releng.aggregator" >> ${GITLOG_FILE}
-    echo;echo >> ${GITLOG_FILE}
-    git log ${lastTag}..${BUILD_ID} >> ${GITLOG_FILE}
-    echo >> ${GITLOG_FILE}
-    echo >> ${GITLOG_FILE}
-    # And now all submodules. Note we use --quiet specifically not to have the
-    # "Entering <submodule>" messages printed.
     TMP_GIT_LOG=${TMP_DIR}/gitlog.txt
-    git submodule --quiet foreach "git log ${lastTag}..${BUILD_ID}>${TMP_GIT_LOG};FILESIZE=\$(stat -c%s ${TMP_GIT_LOG});if [ \$FILESIZE -ne 0 ]; then echo Repository: \$path;echo;cat ${TMP_GIT_LOG};echo;echo;fi" >> ${GITLOG_FILE}
+    echo -e "<h2>Git log from ${lastTag} (previous) to ${BUILD_ID} (current)</h2>" > ${GITLOG_FILE}
+    echo -e "<h2>The tagging, and this report, were done at about $REPORTTIMESTAMP</h2>" >> ${GITLOG_FILE}
+    git log ${lastTag}..${BUILD_ID} --date=short --format=format:"<tr><td class=\"datecell\">%cd</td><td class=\"commitcell\"><a href=\"https://git.eclipse.org/c/platform/eclipse.platform.releng.aggregator.git/commit/?id=%H\">%s</a></td><td class=\"authorcell\">%aN</td></tr>"> ${TMP_GIT_LOG}
+    FILESIZE1=$(stat -c%s ${TMP_GIT_LOG})
+    if [ $FILESIZE1 -ne 0 ]
+    then
+        echo "<table width=\"80%\"><tbody> <tr><th class=\"cell\" colspan=\"3\">Repository: eclipse.platform.releng.aggregator</th></tr>" >> ${GITLOG_FILE}
+        echo "<tr> <th class=\"datecell\">Date</th> <th class=\"commitcell\">Commit message</th> <th class=\"authorcell\">Author</th> </tr>" >> ${GITLOG_FILE}
+        cat ${TMP_GIT_LOG} >> ${GITLOG_FILE}
+        echo  "</tbody></table><br><br>">> ${GITLOG_FILE}
+        echo  >> ${GITLOG_FILE}
+    fi
+    git submodule --quiet foreach "comp=\$(echo \$path|cut -d. -f2);git log ${lastTag}..${BUILD_ID} --date=short --format=format:\"<tr><td class=\\\"datecell\\\">%cd</td><td class=\\\"commitcell\\\"><a href=\\\"https://git.eclipse.org/c/\$comp/\$path.git/commit/?id=%H\\\">%s</a></td><td class=\\\"authorcell\\\">%aN</td></tr>\">${TMP_GIT_LOG};FILESIZE=\$(stat -c%s ${TMP_GIT_LOG});if [ \$FILESIZE -ne 0 ]; then echo \"<table width=\\\"80%\\\"><tbody> <tr><th class=\\\"cell\\\" colspan=\\\"3\\\">Repository: \$path</th></tr>\";echo \"<tr> <th class=\\\"datecell\\\">Date</th> <th class=\\\"commitcell\\\">Commit message</th> <th class=\\\"authorcell\\\">Author</th> </tr>\";cat ${TMP_GIT_LOG};echo \"</tbody></table><br><br>\";echo;fi" >> ${GITLOG_FILE}
   else
     echo -e "\n\tGit log not generated because a reasonable previous tag could not be found." > ${GITLOG_FILE}
   fi
@@ -625,7 +624,7 @@ fn-pom-version-updater ()
   report=${TMP_DIR}/pom_${BUILD_ID}.txt
   pushd "$REPO_DIR"
     mvn ${MAVEN_SETTINGS} $MARGS  ${ALT_POM_FILE} \
-      org.eclipse.tycho:tycho-versions-plugin:1.2.0:update-pom \
+      org.eclipse.tycho:tycho-versions-plugin:1.3.0:update-pom \
       -Dmaven.repo.local=$LOCAL_REPO -Djava.io.tmpdir=${MAVEN_TMP_DIR}\
       -DaggregatorBuild=true \
       -DbuildTimestamp="${TIMESTAMP}" -DbuildType="${BUILD_TYPE}" -DbuildId="${BUILD_ID}" -Declipse-p2-repo.url="NOT_FOR_PRODUCTION_USE"
@@ -1148,17 +1147,17 @@ fn-summarize-apitooling ()
   # Make sure FREEZE_PARAMS is defined, but empty space, if not using freeze reports.
   FREEZE_PARAMS=" "
   # When no "freeze" in effect for a release comment these out. Uncomment after M6, changing to appropriate versions.
-  #FREEZE_PARAMS="-DfreezeBaseURL=http://${DOWNLOAD_HOST}/eclipse/downloads/drops4/S-4.10M3-201803080630/eclipse-SDK-4.10M3-win32-x86_64.zip \
-  #  -DfreezeName=Eclipse-SDK-4.10M3 \
-  #  -DfreezeFilename=eclipse-SDK-4.10M3-win32-x86_64.zip "
+  #FREEZE_PARAMS="-DfreezeBaseURL=http://${DOWNLOAD_HOST}/eclipse/downloads/drops4/S-4.11RC1-201811290330/eclipse-SDK-4.11RC1-win32-x86_64.zip \
+  #  -DfreezeName=Eclipse-SDK-4.11RC1 \
+  #  -DfreezeFilename=eclipse-SDK-4.11RC1-win32-x86_64.zip "
   # this API_PREV_REF_LABEL variable should be changed any time the version used
   # by previousBaseURL changes. Its purpose is just to localize changes to this one
   # place, and not have to make further, hard-coded changes to php files.
   # Similar for freeze label.
   # NOTE: the *reference* for API changes should be the "previous release", even if it is a "service release".
-  API_PREV_REF_LABEL=4.9
+  API_PREV_REF_LABEL=4.10
   fn-write-property API_PREV_REF_LABEL
-  #API_FREEZE_REF_LABEL=4.10M3
+  #API_FREEZE_REF_LABEL=4.11RC1
   API_FREEZE_REF_LABEL=" "
   fn-write-property API_FREEZE_REF_LABEL
   java -Djava.io.tmpdir=$TMP_DIR -jar "$BASEBUILDER_LAUNCHER" \
@@ -1170,9 +1169,9 @@ fn-summarize-apitooling ()
     -DbuildId="$BUILD_ID" \
     -DbuildLabel="$BUILD_ID" \
     -DbuildWorkingArea="${BUILD_HOME}/4${BUILD_TYPE}/gitCache/eclipse.platform.releng.aggregator" \
-    -DpreviousBaseURL=http://${DOWNLOAD_HOST}/eclipse/downloads/drops4/R-4.9-201809060745/eclipse-SDK-4.9-win32-x86_64.zip \
-    -DpreviousBaselineName=Eclipse-SDK-4.9 \
-    -DpreviousBaselineFilename=eclipse-SDK-4.9-win32-x86_64.zip \
+    -DpreviousBaseURL=http://${DOWNLOAD_HOST}/eclipse/downloads/drops4/R-4.10-201812060815/eclipse-SDK-4.10-win32-x86_64.zip \
+    -DpreviousBaselineName=Eclipse-SDK-4.10 \
+    -DpreviousBaselineFilename=eclipse-SDK-4.10-win32-x86_64.zip \
     -Djava.io.tmpdir=$TMP_DIR \
     ${FREEZE_PARAMS} \
     apiToolsReports

@@ -27,29 +27,21 @@
 
     <fail
       unless="currentStream"
-      message="currentStream (such as '4.10') must be defined for this script" />
+      message="currentStream (such as '4.11') must be defined for this script" />
     <fail
       unless="maintenanceStream"
-      message="maintenanceStream (such as '4.9') must be defined for this script" />
+      message="maintenanceStream (such as '4.10') must be defined for this script" />
 
     <!-- Note: we do not put stream number in 'name', since once a 'name' is defined
          in Eclipse's UI, it does not change. -->
     <updatecomposite
       repotocreate="/home/data/httpd/download.eclipse.org/eclipse/updates/I-builds"
-      repotopointto="http://download.eclipse.org/eclipse/updates/${currentStream}-I-builds/"
+      repotopointto="https://download.eclipse.org/eclipse/updates/${currentStream}-I-builds/"
       reponame="Eclipse Project current integration builds repository" />
     <updatecomposite
-      repotocreate="/home/data/httpd/download.eclipse.org/eclipse/updates/N-builds"
-      repotopointto="http://download.eclipse.org/eclipse/updates/${currentStream}-N-builds/"       
-      reponame="Eclipse Project current nightly builds repository" />
-    <updatecomposite
       repotocreate="/home/data/httpd/download.eclipse.org/eclipse/updates/milestones"
-      repotopointto="http://download.eclipse.org/eclipse/updates/${currentStream}milestones/"       
+      repotopointto="https://download.eclipse.org/eclipse/updates/${currentStream}milestones/"       
       reponame="Eclipse Project current milestone builds repository" />
-    <updatecomposite
-      repotocreate="/home/data/httpd/download.eclipse.org/eclipse/updates/M-builds"
-      repotopointto="http://download.eclipse.org/eclipse/updates/${maintenanceStream}-M-builds/"       
-      reponame="Eclipse Project maintenance builds repository" />
 
   </target>
 

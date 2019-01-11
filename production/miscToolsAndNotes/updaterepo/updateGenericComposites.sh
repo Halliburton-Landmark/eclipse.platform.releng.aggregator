@@ -38,7 +38,7 @@ fi
 
 # Assumed there is an Eclipse SDK already installed. 
 # remember, the eclipse install must match the VM used (e.g. both 64 bit, both 32 bit, etc).
-ECLIPSE_EXE=${ECLIPSE_EXE:-utilities/eclipse.platform.releng.tychoeclipsebuilder/eclipse/org.eclipse.releng.basebuilder/eclipse}}
+ECLIPSE_EXE=${ECLIPSE_EXE:-utilities/eclipse.platform.releng.tychoeclipsebuilder/eclipse/org.eclipse.releng.basebuilder/eclipse}
 
 if [[ ! -n ${ECLIPSE_EXE} && -x ${ECLIPSE_EXE} ]]
 then
@@ -62,15 +62,15 @@ BUILDFILESTR="-f ${BUILDFILE}"
 currentStream=$1
 if [[ -z "${currentStream}" ]]
 then
-  printf "\n\t%s\t%s\n" "WARNING:" "Current stream version not specified on command line, assuming 4.10"
-  currentStream="4.10"
+  printf "\n\t%s\t%s\n" "WARNING:" "Current stream version not specified on command line, assuming 4.11"
+  currentStream="4.11"
 fi
 
 maintenanceStream=$2
 if [[ -z "${maintenanceStream}" ]]
 then
-  printf "\n\t%s\t%s\n" "WARNING:" "Maintenance stream version not specified on command line, assuming 4.9"
-  maintenanceStream="4.9"
+  printf "\n\t%s\t%s\n" "WARNING:" "Maintenance stream version not specified on command line, assuming 4.10"
+  maintenanceStream="4.10"
 fi
 
 

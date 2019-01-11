@@ -97,10 +97,10 @@
     <!-- for I or M build (which is the unusual case) the build directory and label are the same -->
     <property
       name="eclipseBaseDir"
-      value="S-4.10M1-201810101800" />
+      value="R-4.10-201812060815" />
     <property
       name="eclispeBaseLabel"
-      value="4.10M1" />
+      value="4.10" />
 
     <property
       name="platformURL"
@@ -142,11 +142,11 @@
     <echo message="DEBUG: Before setting default, eclisperun-repo was found to be ${eclipserun-repo-is-set}" />
     <!-- the following setting is just to make sure we have a reasonable "fallback" value, such as when
       using this script on Hudson to do "clean up" of repositories. Should change it to "well known" version,
-      such as updates/4.9/ once it is ready.
+      such as updates/4.10/ once it is ready.
     -->
     <property
       name="eclipserun-repo"
-      value="http://download.eclipse.org/eclipse/updates/4.10-I-builds/" />
+      value="http://download.eclipse.org/eclipse/updates/4.11-I-builds/" />
     <echo message="eclipserun-repo: ${eclipserun-repo}" />
 
     <property
@@ -182,7 +182,7 @@
 
     <property
       name="webtools.repository"
-      value="http://download.eclipse.org/webtools/downloads/drops/R3.10.0/S-3.10.0.RC4-20180611164516/repositoryunittests/" />
+      value="https://download.eclipse.org/webtools/downloads/drops/R3.12.0/R-3.12.0-20181130055351/repositoryunittests/" />
     <property
       name="webtools.feature"
       value="org.eclipse.wtp.releng.tools.feature.feature.group" />

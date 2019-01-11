@@ -19,7 +19,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse</groupId>
   <artifactId>eclipse-platform-parent</artifactId>
-  <version>4.10.0-SNAPSHOT</version>
+  <version>4.11.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <!--
     See maven-enforcer-plugin configuration to actually break the build if
@@ -38,6 +38,7 @@
       During production builds, we run with -DskipTests=true -->
     <skipTests>false</skipTests>
     <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
+    <macSigner.forceContinue>false</macSigner.forceContinue>
     <buildTimestamp>${maven.build.timestamp}</buildTimestamp>
     <buildType>I</buildType>
     <buildId>${buildType}${buildTimestamp}</buildId>
@@ -48,7 +49,7 @@
       such as Version: Mars (4.5), for main features.
       See bug 328139.
     -->
-    <releaseName>2018-12</releaseName>
+    <releaseName>2019-03</releaseName>
     <!--
       The releaseNumbers below, for SDK and Platform, might be
       thought of as the "marketing number" or "branding number",
@@ -63,8 +64,8 @@
       but we'd still want the "marketing number" to be increased to reflect
       "a new yearly release".
     -->
-    <releaseNumberSDK>4.10</releaseNumberSDK>
-    <releaseNumberPlatform>4.10</releaseNumberPlatform>
+    <releaseNumberSDK>4.11</releaseNumberSDK>
+    <releaseNumberPlatform>4.11</releaseNumberPlatform>
 
 
     <!-- Using snapshot, or locally built (forked) snapshot version for bug 484000.
@@ -78,8 +79,8 @@
 	<!-- using released version (normal case)
 	     when upgrading make sure you change pom-version-updater version in build-functions.shsource
     -->
-    <tycho.version>1.3.0-SNAPSHOT</tycho.version>
-    <tycho-extras.version>1.3.0-SNAPSHOT</tycho-extras.version>
+    <tycho.version>1.3.0</tycho.version>
+    <tycho-extras.version>1.3.0</tycho-extras.version>
 
     <cbi-plugins.version>1.1.5</cbi-plugins.version>
 
@@ -88,9 +89,9 @@
       'eclipiserun-repo' repository, such as for computing .api-descriptions and
       generating API Tools reports.
     -->
-    <eclipserun-repo>http://download.eclipse.org/eclipse/updates/4.10-I-builds/</eclipserun-repo>
+    <eclipserun-repo>http://download.eclipse.org/eclipse/updates/4.11-I-builds/</eclipserun-repo>
     
-    <comparator.repo>http://download.eclipse.org/eclipse/updates/4.10-I-builds</comparator.repo>
+    <comparator.repo>http://download.eclipse.org/eclipse/updates/4.11-I-builds</comparator.repo>
 
     <!--
       NOTE: this EMF and ECF URL must match exactly what is in the eclipse-sdk-prereqs.target file.
@@ -99,7 +100,7 @@
       it).
       And, of course, in the PDE target file, the URL is expected to be the actual URL, not a variable.
     -->
-    <emf-repo.url>http://download.eclipse.org/modeling/emf/emf/builds/milestone/S201811200213</emf-repo.url>
+    <emf-repo.url>http://download.eclipse.org/modeling/emf/emf/builds/milestone/S201901090453/</emf-repo.url>
 
     <ecf-repo.url>http://download.eclipse.org/rt/ecf/3.14.4/site.p2/</ecf-repo.url>
 
@@ -108,7 +109,7 @@
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <cbi-jdt-repo.url>https://repo.eclipse.org/content/repositories/eclipse-staging/</cbi-jdt-repo.url>
-    <cbi-ecj-version>3.16.0.v20181120-0611</cbi-ecj-version>
+    <cbi-ecj-version>3.16.0.v20181130-1748</cbi-ecj-version>
 
     <!--
       Production bundles are produced by ignoring the compiler warnings specified
@@ -246,22 +247,6 @@
         <extensions>true</extensions>
       </plugin>
       <plugin>
-        <groupId>org.eclipse.cbi.maven.plugins</groupId>
-        <artifactId>eclipse-cbi-plugin</artifactId>
-        <version>${cbi-plugins.version}</version>
-        <executions>
-          <execution>
-            <!--
-              Default lifecycle phase: 'GENERATE_SOURCES'
-              See https://maven.apache.org/ref/3.5.4/maven-core/lifecycles.html
-            -->
-            <goals>
-              <goal>generate-api-build-xml</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <groupId>org.eclipse.tycho</groupId>
         <artifactId>target-platform-configuration</artifactId>
         <configuration>
@@ -272,7 +257,7 @@
             <artifact>
               <groupId>org.eclipse</groupId>
               <artifactId>eclipse-sdk-prereqs</artifactId>
-              <version>4.10.0-SNAPSHOT</version>
+              <version>4.11.0-SNAPSHOT</version>
             </artifact>
           </target>
           <environments>
@@ -391,7 +376,7 @@
            <configuration>
              <skip>${compare-version-with-baselines.skip}</skip>
              <baselines>
-               <baseline>http://download.eclipse.org/eclipse/updates/4.9/</baseline> <!-- Previous release) -->
+               <baseline>http://download.eclipse.org/eclipse/updates/4.10/</baseline> <!-- Previous release) -->
              </baselines>
              <comparator>zip</comparator>
            </configuration>
@@ -654,7 +639,7 @@
           For maintenance streams should always be "M-builds".
           Ideally, this value would be provided by the environment, see bug 489789.
         -->
-        <eclipse-p2-repo.url>http://download.eclipse.org/eclipse/updates/4.10-I-builds</eclipse-p2-repo.url>
+        <eclipse-p2-repo.url>http://download.eclipse.org/eclipse/updates/4.11-I-builds</eclipse-p2-repo.url>
       </properties>
       <repositories>
         <repository>
@@ -875,6 +860,22 @@
       <build>
         <plugins>
           <plugin>
+            <groupId>org.eclipse.cbi.maven.plugins</groupId>
+            <artifactId>eclipse-cbi-plugin</artifactId>
+            <version>${cbi-plugins.version}</version>
+            <executions>
+              <execution>
+                <!--
+                    Default lifecycle phase: 'GENERATE_SOURCES'
+                    See https://maven.apache.org/ref/3.5.4/maven-core/lifecycles.html
+                -->
+                <goals>
+                  <goal>generate-api-build-xml</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
             <groupId>org.eclipse.tycho.extras</groupId>
             <artifactId>tycho-eclipserun-plugin</artifactId>
             <configuration>
@@ -1033,4 +1034,7 @@
       </properties>
     </profile>
   </profiles>
+  <scm>
+    <connection>scm:git:https://git.eclipse.org/r/platform/eclipse.platform.releng.aggregator</connection>
+  </scm>
 </project>

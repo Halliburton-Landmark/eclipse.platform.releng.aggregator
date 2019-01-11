@@ -153,19 +153,19 @@
       <unit id="com.google.gson.source" version="2.8.2.v20180104-1110"/>
       <unit id="org.jsoup" version="1.7.2.v201411291515"/>
 
-      <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/S20181120221132/repository/"/>
+      <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20181128170323/repository/"/>
     </location>
 
     <location includeAllPlatforms="true" includeMode="slicer" type="InstallableUnit">
-      <unit id="org.eclipse.emf.common.feature.group" version="2.15.0.v20180914-1817"/>
-      <unit id="org.eclipse.emf.common.source.feature.group" version="2.15.0.v20180914-1817"/>
-      <unit id="org.eclipse.emf.ecore.feature.group" version="2.16.0.v20181116-0557"/>
-      <unit id="org.eclipse.emf.ecore.source.feature.group" version="2.16.0.v20181116-0557"/>
+      <unit id="org.eclipse.emf.common.feature.group" version="2.15.0.v20181220-0846"/>
+      <unit id="org.eclipse.emf.common.source.feature.group" version="2.15.0.v20181220-0846"/>
+      <unit id="org.eclipse.emf.ecore.feature.group" version="2.17.0.v20181231-1705"/>
+      <unit id="org.eclipse.emf.ecore.source.feature.group" version="2.17.0.v20181231-1705"/>
        <!-- For org.eclipse.ui.tools -->
       <unit id="org.eclipse.emf.edit" version="2.14.0.v20180823-0456"/>
       <unit id="org.eclipse.emf.databinding" version="1.5.0.v20180706-1146"/>
       <unit id="org.eclipse.emf.databinding.edit" version="1.5.0.v20180823-0456"/>
-      <repository location="http://download.eclipse.org/modeling/emf/emf/builds/milestone/S201811200213"/>
+      <repository location="http://download.eclipse.org/modeling/emf/emf/builds/milestone/S201901090453/"/>
     </location>
 
     <location includeAllPlatforms="true" includeMode="slicer" type="InstallableUnit">
@@ -208,10 +208,13 @@
     </location>
 
     <location includeAllPlatforms="true" includeMode="slicer" type="InstallableUnit">
-      <unit id="org.eclipse.egit.core" version="5.1.3.201810200350-r"/>
-      <unit id="org.eclipse.jgit" version="5.1.3.201810200350-r"/>
+      <unit id="org.eclipse.egit.core" version="5.2.0.201812061821-r"/>
+      <unit id="org.eclipse.jgit" version="5.2.0.201812061821-r"/>
+	  <unit id="org.eclipse.jgit.ssh.apache" version="5.2.0.201812061821-r"/>
+	  <unit id="net.i2p.crypto.eddsa" version="0.3.0.v20181102-1323"/>
+      <unit id="org.apache.sshd.sftp" version="2.0.0.v20181102-1323"/>
       <unit id="javaewah" version="1.1.6.v20160919-1400"/>
-      <repository location="http://download.eclipse.org/egit/updates-5.1.3"/>
+      <repository location="http://download.eclipse.org/egit/updates-5.2"/>
     </location>
 
     <location includeAllPlatforms="true" includeMode="slicer" type="InstallableUnit">

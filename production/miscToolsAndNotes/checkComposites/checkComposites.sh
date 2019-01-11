@@ -22,20 +22,21 @@
 # and then executed in "bash script" build step.
 
 baseEclipseAccessDir=/home/data/httpd/download.eclipse.org
-baseEclipseDirSegment=eclipse/downloads/drops4/R-4.9-201809060745
-baseEclipse=eclipse-platform-4.9-linux-gtk-x86_64.tar.gz
+baseEclipseDirSegment=eclipse/downloads/drops4/R-4.10-201812060815
+baseEclipse=eclipse-platform-4.10-linux-gtk-x86_64.tar.gz
 repoFileAccess=file:///home/data/httpd/download.eclipse.org/
 repoHttpAccess=http://download.eclipse.org
 repoAccess=${repoFileAccess}
 # TODO: reduce this list soon
 repoList="\
-/eclipse/updates/4.8/ \
-/eclipse/updates/4.9/ \
+/eclipse/updates/4.11/ \
 /eclipse/updates/4.10/ \
-/eclipse/updates/4.9-Y-builds/ \
 /eclipse/updates/4.10-I-builds/ \
 /eclipse/updates/4.10milestones/ \
-
+/eclipse/updates/4.11-I-builds/ \
+/eclipse/updates/4.11milestones/ \
+/eclipse/updates/4.11-Y-builds/ \
+/eclipse/updates/4.11-P-builds/ \
 "
 
 
